@@ -31,3 +31,57 @@ function logAction(action, username) {
 }
 
 module.exports = { capitalizeWords, filterActiveUsers, logAction };
+
+describe('capitalizeWords', () => {
+test('capitalizes normal sentence', () => {
+expect(capitalizeWords('hello world')).toBe('Hello World');
+});
+
+test('handles empty string', () => {
+expect(capitalizeWords('')).toBe('');
+});
+
+test('handles single word', () => {
+expect(capitalizeWords('hello')).toBe('Hello');
+});
+
+test('handles special characters', () => {
+expect(capitalizeWords('hello-world')).toBe('Hello-World');
+});
+});
+
+describe('filterActiveUsers', () => {
+test('filters active users', () => {
+const users = [
+{ name: 'A', isActive: true },
+{ name: 'B', isActive: false }
+];
+
+expect(filterActiveUsers(users)).toEqual([
+{ name: 'A', isActive: true }
+]);
+});
+
+test('all inactive users', () => {
+const users = [
+{ name: 'A', isActive: false }
+];
+
+expect(filterActiveUsers(users)).toEqual([]);
+});
+
+test('empty array', () => {
+expect(filterActiveUsers([])).toEqual([]);
+});
+});
+describe('logAction', () => {
+test('returns correct log format', () => {
+const result = logAction('login', 'DJ');
+expect(result).toContain('User DJ performed login at');
+});
+
+test('handles empty inputs', () => {
+const result = logAction('', '');
+expect(result).toContain('User  performed  at');
+});
+});
